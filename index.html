@@ -21,7 +21,10 @@
 *{box-sizing:border-box}
 body{background:var(--ink);color:var(--fg);font-family:var(--body);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-section{padding-block:clamp(56px,8vw,112px)}
+section{padding-block:clamp(48px,6vw,88px)}
+/* consecutive sections should not stack two full paddings */
+#lots,#ways{padding-top:clamp(18px,2.4vw,36px)}
+#buy{padding-bottom:clamp(26px,3vw,44px)}
 h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin:0}
 p{margin:0}
 a{color:inherit}
@@ -29,10 +32,13 @@ a{color:inherit}
 .section-h{font-size:clamp(26px,4vw,42px)}
 .band{background:var(--panel);border-block:1px solid var(--line)}
 
-.rule{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.rule span{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg);white-space:nowrap}
-.rule i{height:1px;background:var(--red);flex:1;min-width:28px}
-.rule b{width:9px;height:9px;border-radius:50%;background:var(--red);flex:none}
+/* the red rule is the hero's signature; elsewhere a label is enough */
+.rule{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.rule span{font-family:var(--body);font-size:12.5px;font-weight:500;letter-spacing:.06em;color:var(--faint);white-space:nowrap}
+.rule i,.rule b{display:none}
+.hero .rule span,.creed .rule span{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg)}
+.hero .rule i,.creed .rule i{display:block;height:1px;background:var(--red);flex:1;min-width:28px}
+.creed .rule b{display:block;width:9px;height:9px;border-radius:50%;background:var(--red);flex:none}
 
 header{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(10,11,13,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
 body{padding-top:68px}
@@ -82,10 +88,10 @@ body.locked{overflow:hidden}
 .lede{color:var(--dim);font-size:17px;max-width:48ch;margin-top:20px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:15px 24px;text-decoration:none;border:1px solid var(--line);border-radius:10px;color:var(--fg);background:transparent;cursor:pointer;transition:transform .18s,background .18s,border-color .18s,box-shadow .18s}
-.btn::after{content:"→";font-size:14px;line-height:1;transition:transform .18s}
+.btn.solid::after{content:"→";font-size:14px;line-height:1;transition:transform .18s}
 .btn:hover{transform:translateY(-2px)}
-.btn:hover::after{transform:translateX(4px)}
-.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.btn.solid:hover::after{transform:translateX(4px)}
+.btn:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 .btn.solid{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 10px 26px rgba(225,27,34,.26)}
 .btn.solid:hover{background:#C4161C;box-shadow:0 16px 34px rgba(225,27,34,.34)}
 .btn.ghost:hover{border-color:var(--fg);background:rgba(255,255,255,.045)}
@@ -103,12 +109,10 @@ body.locked{overflow:hidden}
 
 /* live-tracking console under the globe */
 .console{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel-2),var(--panel));margin-top:clamp(26px,4vw,44px)}
-.cbar{display:grid;grid-template-columns:minmax(230px,1.05fr) auto minmax(320px,1.5fr);align-items:stretch}
-.lane{padding:16px 20px;border-right:1px solid var(--line);min-width:0}
-.cpct{padding:16px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:7px}
-@media(max-width:900px){.cbar{grid-template-columns:1fr}.lane,.cpct{border-right:0;border-bottom:1px solid var(--line)}}
-.lane h5{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 9px;font-weight:400}
-.lane h5 em{font-style:normal;border:1px solid rgba(79,214,201,.4);border-radius:999px;padding:2px 7px;font-size:8.5px;letter-spacing:.1em}
+.cbar{display:grid;grid-template-columns:minmax(260px,1fr) minmax(320px,1.6fr);align-items:stretch}
+.lane{padding:18px 20px;border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:900px){.cbar{grid-template-columns:1fr}.lane{border-right:0;border-bottom:1px solid var(--line)}}
+.lane h5{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 9px;font-weight:400}
 .lane .route{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
 .lane .sub{font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-top:5px}
 .lane-pct{display:flex;align-items:baseline;gap:12px;font-family:var(--display);font-size:clamp(28px,4vw,36px);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
@@ -130,7 +134,7 @@ body.locked{overflow:hidden}
 .metric{border:1px solid var(--line);background:var(--panel);padding:24px 22px;display:grid;gap:16px;transition:transform .2s,border-color .2s,background .2s}
 .metric:hover{transform:translateY(-4px);border-color:rgba(225,27,34,.5);background:var(--panel-2)}
 .claim{display:grid;grid-template-columns:auto auto 1fr;gap:22px;align-items:center;padding:24px;
-  border:1px solid rgba(225,27,34,.34);background:linear-gradient(100deg,rgba(225,27,34,.15),rgba(16,18,22,.55) 60%)}
+  border-left:2px solid var(--red);background:var(--panel)}
 .claim strong{font-family:var(--display);font-size:clamp(40px,6.4vw,66px);font-weight:700;letter-spacing:-.05em;line-height:.88}
 .claim p{color:var(--dim);font-size:14.5px;max-width:54ch}
 @media(max-width:700px){.mrow{grid-template-columns:1fr}.claim{grid-template-columns:1fr;gap:14px}}
@@ -217,8 +221,8 @@ body.locked{overflow:hidden}
 }
 
 /* animated buying instruction */
-.journey{margin-top:40px}
-.road{position:relative;height:148px;margin-bottom:10px}
+.journey{margin-top:30px}
+.road{position:relative;height:116px;margin-bottom:6px}
 .road-line{position:absolute;left:0;right:0;bottom:30px;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 14px,transparent 14px 26px)}
 .road-line::after{content:"";position:absolute;left:0;right:0;top:-1px;height:3px;background:linear-gradient(90deg,transparent,rgba(225,27,34,.16),transparent)}
 .jnode{position:absolute;bottom:22px;width:17px;height:17px;border-radius:50%;background:var(--ink);border:1px solid var(--line);transform:translateX(-50%);display:grid;place-items:center;transition:border-color .3s,box-shadow .3s}
@@ -228,17 +232,17 @@ body.locked{overflow:hidden}
 .carbox{position:absolute;bottom:26px;left:0;width:clamp(196px,27vw,320px);will-change:transform}
 .carbox img{width:100%;height:auto;display:block;filter:drop-shadow(0 16px 22px rgba(0,0,0,.6))}
 .carplate{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--faint);text-align:center;margin-top:6px;white-space:nowrap}
-.jsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.jstep{background:var(--panel);padding:22px 20px;transition:background .3s,transform .3s;position:relative}
+.jsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(20px,3vw,40px)}
+.jstep{padding:20px 0 0 16px;border-top:1px solid var(--line);transition:border-color .3s;position:relative}
 .jstep::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .35s}
-.jstep.on{background:var(--panel-2)}
+.jstep.on{border-top-color:var(--red)}
 .jstep.on::before{transform:scaleY(1)}
 .jstep em{font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
 .jstep h4{font-size:17px;margin:10px 0 7px}
 .jstep p{color:var(--dim);font-size:14px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(214px,1fr));gap:14px;margin-top:40px}
-.card{border:1px solid var(--line);background:var(--panel);padding:22px 20px;transition:transform .2s,border-color .2s,background .2s}
-.card:hover{transform:translateY(-4px);border-color:var(--red);background:var(--panel-2)}
+.card{border-top:1px solid var(--line);padding:20px 0 0;transition:border-color .2s}
+.card:hover{border-top-color:var(--red)}
 .card em{font-family:var(--mono);font-style:normal;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
 .card h4{font-size:17px;margin:10px 0 7px}
 .card p{color:var(--dim);font-size:13.5px}
@@ -501,7 +505,7 @@ const UI = {
     eyebrow:'Logistics holding · est. 2008',
     cta1:'Our services', cta2:'22 offices worldwide',
     hub:'Lion hub', office:'Office', drag:'Drag to rotate', live:'Live lane',
-    track_badge:'Sample', lane:'Sea freight · 40HC', eta:'ETA', days:'days',
+    main_lane:'Main lane', lane:'Sea freight · 40HC',
     hud:[['22','Offices'],['14','Countries'],['5','Active lanes'],['2','Georgian hubs']],
     groups:[
       ['Reach', [['4','Continents',0],['14','Countries',1],['22','Offices',6]]],
@@ -533,7 +537,7 @@ const UI = {
     eyebrow:'ლოჯისტიკური ჰოლდინგი · 2008 წლიდან',
     cta1:'ჩვენი სერვისები', cta2:'22 ოფისი მსოფლიოში',
     hub:'ლიონის ჰაბი', office:'ოფისი', drag:'დაატრიალე მაუსით', live:'აქტიური მარშრუტი',
-    track_badge:'ნიმუში', lane:'საზღვაო გადაზიდვა · 40HC', eta:'ჩამოსვლამდე', days:'დღე',
+    main_lane:'მთავარი მარშრუტი', lane:'საზღვაო გადაზიდვა · 40HC',
     hud:[['22','ოფისი'],['14','ქვეყანა'],['5','აქტიური მარშრუტი'],['2','ჰაბი საქართველოში']],
     groups:[
       ['დაფარვა', [['4','კონტინენტი',0],['14','ქვეყანა',1],['22','ოფისი',6]]],
@@ -607,9 +611,9 @@ const METERS = [40, 62, 74, 88, 56, 35];
 function renderTabs() {
   set('tabs', VERTICALS.map(([title], i) =>
     `<button class="tab" type="button" role="tab" data-i="${i}" aria-selected="${i === activeTab}">
-       <em>0${i + 1}</em><b>${esc(cleanTitle(t(title)))}</b></button>`).join(''));
+       <b>${esc(cleanTitle(t(title)))}</b></button>`).join(''));
   const [, items] = VERTICALS[activeTab];
-  set('panel', `<div class="ghost-num">0${activeTab + 1}</div><div class="panel-grid">` +
+  set('panel', `<div class="panel-grid">` +
     items.map(([a, b], n) => `<div class="svc" style="animation-delay:${n * 60}ms">
         <h4>${esc(t(a))}</h4><p>${esc(t(b))}</p></div>`).join('') + `</div>`);
 }
@@ -660,17 +664,13 @@ function render() {
   document.getElementById('hero-title').innerHTML = t('main_banner_title');
   set('hero-lede', esc(t('meta_main_desc')));
   set('hero-cta', `<a class="btn solid" href="#services">${esc(u('cta1'))}</a><a class="btn ghost" href="#network">${esc(u('cta2'))}</a>`);
-  set('globe-foot', `<span><b>●</b> ${esc(u('hub'))}</span><span>● ${esc(u('office'))}</span><span><u>—</u> ${esc(u('live'))}</span><span>${esc(u('drag'))}</span>`);
+  set('globe-foot', `<span><b>●</b> ${esc(u('hub'))}</span><span>● ${esc(u('office'))}</span><span>${esc(u('drag'))}</span>`);
   set('console', `
     <div class="cbar">
       <div class="lane">
-        <h5>${esc(t('track_info'))} <em>${esc(u('track_badge'))}</em></h5>
+        <h5>${esc(u('main_lane'))}</h5>
         <div class="route" id="tc-route"></div>
         <div class="sub">${esc(u('lane'))}</div>
-      </div>
-      <div class="cpct">
-        <div class="lane-pct"><span><span id="tc-pct">0</span>%</span><i id="tc-eta"></i></div>
-        <div class="pbar" style="width:120px"><i id="tc-bar"></i></div>
       </div>
       <div class="hudstrip">${u('hud').map(([n, l]) => `<div class="hudcell"><b>${n}</b><span>${esc(l)}</span></div>`).join('')}</div>
     </div>`);
@@ -1054,7 +1054,7 @@ function draw(time) {
 
   ROUTES.forEach((r, i) => {
     ctx.beginPath(); path({ type: 'LineString', coordinates: [r.from, r.to] });
-    ctx.strokeStyle = i === 0 ? 'rgba(79,214,201,.75)' : 'rgba(225,27,34,.5)';
+    ctx.strokeStyle = i === 0 ? 'rgba(225,27,34,.9)' : 'rgba(225,27,34,.38)';
     ctx.lineWidth = i === 0 ? 1.6 : 1.2;
     ctx.setLineDash(i === 0 ? [] : [3, 4]);
     ctx.stroke();
@@ -1065,12 +1065,11 @@ function draw(time) {
   ROUTES.forEach((r, i) => {
     const f = (time / 5200 + i / ROUTES.length) % 1;
     const c = r.interp(f);
-    if (i === 0) updateCard(f);
     if (d3.geoDistance(c, centre) > Math.PI / 2) return;
     const [x, y] = projection(c);
-    if (i === 0) { ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fillStyle = 'rgba(79,214,201,.22)'; ctx.fill(); }
+    if (i === 0) { ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fillStyle = 'rgba(225,27,34,.2)'; ctx.fill(); }
     ctx.beginPath(); ctx.arc(x, y, i === 0 ? 3.4 : 2.6, 0, 7);
-    ctx.fillStyle = i === 0 ? '#4FD6C9' : '#E11B22'; ctx.fill();
+    ctx.fillStyle = '#E11B22'; ctx.fill();
   });
 
   const placed = [];
